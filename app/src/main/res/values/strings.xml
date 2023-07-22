@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Currency</string>
     <string name="error">error</string>
-    <string name="ok">ok</string>
+    <string name="ok">OK</string>
+    <string name="currency">Currency</string>
+    <string name="details">Details</string>
 </resources>

@@ -1,6 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/main_nav">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_nav"
+    app:startDestination="@id/HomeFragment">
+
+    <fragment android:id="@+id/HomeFragment"
+        android:name="com.aya.currency.feature.fragment.home.ui.HomeFragment"
+        tools:layout="@layout/home_fragment">
+
+        <action
+            android:id="@+id/action_HomeFragment_to_HistoryFragment"
+            app:destination="@id/HistoryFragment"
+            />
+    </fragment>
+
+    <fragment android:id="@+id/HistoryFragment"
+        android:name="com.aya.currency.feature.fragment.history.ui.HistoryFragment"
+        tools:layout="@layout/history_fragment">
+
+    </fragment>
 
 </navigation>

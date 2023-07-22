@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'org.jetbrains.kotlin.plugin.serialization' version '1.5.31'
     id 'kotlin-kapt'
+    id 'kotlin-android'
     id 'kotlin-parcelize'
     id 'dagger.hilt.android.plugin'
     id 'androidx.navigation.safeargs.kotlin'
@@ -36,6 +37,9 @@ android {
         jvmTarget = '1.8'
     }
 
+    buildTypes.each {
+        it.buildConfigField 'String', 'SERVER_HOST', serverHost
+    }
     buildFeatures {
         viewBinding = true
         dataBinding = true

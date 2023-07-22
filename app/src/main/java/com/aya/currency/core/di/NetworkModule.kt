@@ -1,5 +1,6 @@
 package com.aya.currency.core.di
 
+import com.aya.currency.BuildConfig
 import com.aya.currency.core.network.*
 import com.aya.currency.core.response.NetworkResponseAdapterFactory
 import com.aya.currency.utils.Constants.BASE_URL_API
@@ -16,7 +17,7 @@ import javax.inject.Singleton
 
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
-annotation class AuthInterceptorOkHttpClient
+annotation class MainInterceptorOkHttpClient
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -32,6 +33,25 @@ class NetworkModule {
             .build()
     }
 
+    @MainInterceptorOkHttpClient
+    @Singleton
+    @Provides
+    fun provideMainInterceptor(): MainInterceptor
+            = MainInterceptor()
+
+    @Singleton
+    @Provides
+    fun provideOkHttpClient(
+        loggingInterceptor: HttpLoggingInterceptor,
+        @MainInterceptorOkHttpClient mainInterceptor: MainInterceptor,
+    ): OkHttpClient {
+        val okHttpClientBuilder: OkHttpClient.Builder = OkHttpClient.Builder()
+        okHttpClientBuilder.addInterceptor(mainInterceptor)
+        if (BuildConfig.DEBUG) {
+            okHttpClientBuilder.addInterceptor(loggingInterceptor)
+        }
+        return okHttpClientBuilder.build()
+    }
 
     @Singleton
     @Provides

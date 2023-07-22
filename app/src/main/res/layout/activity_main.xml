@@ -2,17 +2,17 @@
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     >
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".presentation.activity.MainActivity">
+        android:background="@drawable/header"
+        >
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/main_layout"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:name="androidx.navigation.fragment.NavHostFragment"
             app:navGraph="@navigation/main_nav"
             app:defaultNavHost="true"
@@ -20,6 +20,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
