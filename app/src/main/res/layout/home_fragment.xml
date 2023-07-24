@@ -41,7 +41,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ImageView
-            android:id="@+id/im_arrow"
+            android:id="@+id/bt_convert"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_arrow"
@@ -82,21 +82,24 @@
             android:layout_width="@dimen/_100sdp"
             android:layout_height="wrap_content"
             android:inputType="numberDecimal"
+            android:text="1"
+            android:textAlignment="center"
+            android:textSize="@dimen/_16sdp"
             android:layout_marginTop="@dimen/_15sdp"
             android:background="@drawable/draw_rectangle_black"
-            app:layout_constraintTop_toBottomOf="@id/im_arrow"
+            app:layout_constraintTop_toBottomOf="@id/bt_convert"
             app:layout_constraintStart_toStartOf="@id/lay_from_currency"
             app:layout_constraintEnd_toEndOf="@id/lay_from_currency"
             android:autofillHints="1" />
 
-        <EditText
+        <TextView
             android:id="@+id/convert_number"
             android:layout_width="@dimen/_100sdp"
             android:layout_height="wrap_content"
-            android:inputType="numberDecimal"
+            android:textAlignment="center"
             android:background="@drawable/draw_rectangle_black"
             android:layout_marginTop="@dimen/_15sdp"
-            app:layout_constraintTop_toBottomOf="@id/im_arrow"
+            app:layout_constraintTop_toBottomOf="@id/bt_convert"
             app:layout_constraintStart_toStartOf="@id/lay_to_currency"
             app:layout_constraintEnd_toEndOf="@id/lay_to_currency"
             android:importantForAutofill="yes"

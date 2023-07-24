@@ -11,9 +11,10 @@ import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.ViewModel
 import com.aya.currency.core.extension.bindView
 
+
 abstract class BaseActivity<B : ViewDataBinding, VM : ViewModel> : AppCompatActivity() {
     companion object {
-        const val SCREEN_ID = "SCREEN_ID"
+
     }
 
     val baseShowProgress = ObservableBoolean()
@@ -23,7 +24,7 @@ abstract class BaseActivity<B : ViewDataBinding, VM : ViewModel> : AppCompatActi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = bindView()
-     //   binding.setVariable(BR.viewModel, mViewModel)
+       // binding.setVariable(BR.viewModel, mViewModel)
     }
 
     fun setOpacityBackground(view: View, @ColorRes color: Int) {

@@ -65,11 +65,4 @@ abstract class BaseFragment<B : ViewDataBinding, VM : ViewModel> : Fragment() {
         super.onDestroyView()
     }
 
-
-
-
-    /*
-    fun getUserAppType(sessionManager: SessionManager): UserType =
-        sessionManager.getPrefUserData()?.appType!!
-*/
 }

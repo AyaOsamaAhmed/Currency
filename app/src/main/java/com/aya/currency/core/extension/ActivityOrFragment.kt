@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.content.res.Resources
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.DisplayMetrics
@@ -14,47 +13,14 @@ import android.view.WindowInsets
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.FileProvider
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.commit
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
-import androidx.navigation.fragment.findNavController
-import java.io.File
 
-fun <T : Any> Fragment.setBackStackResult(key: String, data: T?, doBack: Boolean = true) {
-    findNavController().previousBackStackEntry?.savedStateHandle?.set(key, data)
-    if (doBack) {
-        findNavController().popBackStack()
-    }
-}
-
-fun <T : Any> Fragment.getBackStackResult(key: String, result: (T?) -> (Unit)) {
-    findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<T?>(key)
-        ?.observe(viewLifecycleOwner) {
-            result(it)
-            //setBackStackResult(key, null, false)
-        }
-}
-
-fun Fragment.replaceFragment(containerId: Int, fragment: Fragment) {
-    activity?.supportFragmentManager?.commit {
-        replace(containerId, fragment)
-    }
-}
-
-fun Activity.getUriFromFileProvider(file: File): Uri = FileProvider.getUriForFile(
-    this,
-    "com.aya.ayoraa",
-    file
-)
-
-fun Fragment.showKeyboard(): Unit? = activity?.let(FragmentActivity::showKeyboard)
 fun Fragment.hideKeyboard() = activity?.hideKeyboard()
 
 fun Activity.showKeyboard() = WindowInsetsControllerCompat(window, window.decorView).show(
@@ -140,30 +106,6 @@ fun <T : AppCompatActivity> Fragment.showActivity(
     }
     startActivity(intent)
 }
-/*
-inline fun <reified T : AppCompatActivity> Fragment.castToActivity(
-    callback: (T?) -> Unit,
-): T? {
-    return if (requireActivity() is T) {
-        callback(requireActivity() as T)
-        requireActivity() as T
-    } else {
-        callback(null)
-        null
-    }
-}
-
-
-fun Activity.showExitDialog() {
-    MaterialAlertDialogBuilder(this)
-        .setTitle(getString(R.string.exit_app))
-        .setMessage(getString(R.string.exit_app_message))
-        .setPositiveButton(getString(R.string.exit)) { dialog, _ ->
-            dialog.dismiss()
-            finishAffinity()
-        }.setNegativeButton(getString(R.string.cancel)) { dialog, _ -> dialog.dismiss() }
-        .show()
-}*/
 
 @Suppress("DEPRECATION")
 inline val Fragment.windowWidth: Int

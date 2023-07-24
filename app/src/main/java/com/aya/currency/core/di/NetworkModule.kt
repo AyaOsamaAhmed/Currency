@@ -57,7 +57,8 @@ class NetworkModule {
     @Provides
     fun provideMainApiService(retrofit: Retrofit): MainApis = retrofit.create(MainApis::class.java)
 
-      @Singleton
+
+    @Singleton
     @Provides
     fun provideLoggingInterceptor(): HttpLoggingInterceptor =
         HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
