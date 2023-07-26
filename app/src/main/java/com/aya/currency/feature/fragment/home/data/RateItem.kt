@@ -8,4 +8,4 @@ data class RateItem (
     var Currency : String? = null ,
     var rate : String? = null
 
-): Parcelable
+):Parcelable

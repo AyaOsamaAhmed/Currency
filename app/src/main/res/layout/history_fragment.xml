@@ -1,10 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    >
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_history_currency"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        tools:itemCount="3"
+        app:spanCount="1"
+        tools:listitem="@layout/item_history"
+        android:background="@drawable/header"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:paddingBottom="@dimen/_30sdp"
+        android:layout_marginHorizontal="@dimen/_5sdp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/rv_other_currency"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:ignore="RtlSymmetry" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_other_currency"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        tools:itemCount="3"
+        app:spanCount="1"
+        tools:listitem="@layout/item_history"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:paddingBottom="@dimen/_30sdp"
+        android:layout_marginHorizontal="@dimen/_5sdp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/rv_history_currency"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:ignore="RtlSymmetry" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.aya.currency.R
@@ -26,15 +26,11 @@ class HomeFragment : BaseFragment<HomeFragmentBinding, HomeViewModel>() ,
     private lateinit var nav : NavHostFragment
     private lateinit var navController : NavController
 
-    override val mViewModel: HomeViewModel by viewModels()
+    override val mViewModel: HomeViewModel by activityViewModels()
 
     private var listCurrency : MutableList<SymbolItem> = mutableListOf()
     private var listCountryCurrency : MutableList<String> = mutableListOf()
     private var currencyAdapter :  ArrayAdapter<String>? = null
-
-
-    private var fromCurrency = ""
-    private var toCurrency = ""
 
     private var fromRate = ""
     private var toRate = ""
@@ -68,10 +64,10 @@ class HomeFragment : BaseFragment<HomeFragmentBinding, HomeViewModel>() ,
 
     private fun getConvertCurrency() {
         mViewModel.rates.forEach {
-            if(it.Currency == fromCurrency){
+            if(it.Currency == mViewModel.fromCurrency){
                 fromRate = it.rate.toString()
             }
-            if (it.Currency == toCurrency){
+            if (it.Currency == mViewModel.toCurrency){
                 toRate = it.rate.toString()
             }
         }
@@ -119,8 +115,8 @@ class HomeFragment : BaseFragment<HomeFragmentBinding, HomeViewModel>() ,
         }
         listCurrency = data.symbols
         //
-        fromCurrency = listCurrency[0].Currency
-        toCurrency = listCurrency[0].Currency
+        mViewModel.fromCurrency = listCurrency[0].Currency
+        mViewModel.toCurrency = listCurrency[0].Currency
 
         currencyAdapter =  ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_item , listCountryCurrency)
         currencyAdapter!!.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -135,16 +131,16 @@ class HomeFragment : BaseFragment<HomeFragmentBinding, HomeViewModel>() ,
         if(parent?.id == binding.spinnerFromCurrency.id) {
             listCurrency.forEach {
                 if(it.Country == item)
-                    fromCurrency = it.Currency
+                    mViewModel.fromCurrency = it.Currency
             }
-            Log.d("","From $fromCurrency")
+            Log.d("","From ${mViewModel.fromCurrency}")
 
         }else if(parent?.id == binding.spinnerToCurrency.id){
             listCurrency.forEach {
                 if(it.Country == item)
-                    toCurrency = it.Currency
+                    mViewModel.toCurrency = it.Currency
             }
-            Log.d("","To: $toCurrency")
+            Log.d("","To: ${mViewModel.toCurrency}")
         }
 
 
