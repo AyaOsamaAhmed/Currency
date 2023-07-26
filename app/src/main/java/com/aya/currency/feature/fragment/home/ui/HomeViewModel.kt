@@ -5,9 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.aya.currency.base.Action
 import com.aya.currency.base.AndroidBaseViewModel
 import com.aya.currency.core.network.Resource
-import com.aya.currency.feature.fragment.home.data.LatestResponse
-import com.aya.currency.feature.fragment.home.data.SymbolsItem
-import com.aya.currency.feature.fragment.home.data.SymbolsResponse
+import com.aya.currency.feature.fragment.home.data.*
 import com.aya.currency.feature.fragment.home.domain.LatestUseCase
 import com.aya.currency.feature.fragment.home.domain.SymbolsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,7 +15,7 @@ import javax.inject.Inject
 sealed class HomeAction  : Action {
     data class ShowLoading(val show: Boolean) : HomeAction()
     data class ShowFailureMsg(val message: String?) : HomeAction()
-    data class ShowLatest (val data: SymbolsItem) : HomeAction()
+    data class ShowLatest (val data: List<RateItem>) : HomeAction()
     data class GetSymbols (val data : SymbolsItem )  : HomeAction()
 }
 
@@ -28,12 +26,15 @@ class HomeViewModel @Inject constructor(
     private val symbolsUseCase: SymbolsUseCase
 ) : AndroidBaseViewModel<HomeAction>(app) {
 
+    var rates = mutableListOf<RateItem>()
+
     init {
+        getLatest()
         getSymbols()
     }
 
-     fun getLatest(param : String ) {
-        latestUseCae.invoke(viewModelScope,param) { res ->
+     private fun getLatest( ) {
+        latestUseCae.invoke(viewModelScope,"") { res ->
             when (res) {
                 is Resource.Failure ->
                     produce(HomeAction.ShowFailureMsg(res.message))
@@ -46,8 +47,9 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun handleLatestSuccess(response: LatestResponse) {
-        if(response.success) {
+    private fun handleLatestSuccess(response: LatestItem) {
+        if(response.success!!) {
+            rates = response.rates
             produce(HomeAction.ShowLatest(response.rates))
         }else
             produce(HomeAction.ShowFailureMsg(response.success.toString()))
@@ -69,9 +71,9 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun handleSymbolsSuccess(response: SymbolsResponse) {
-        if(response.success) {
-            produce(HomeAction.GetSymbols(response.symbols))
+    private fun handleSymbolsSuccess(response: SymbolsItem) {
+        if(response.success!!) {
+            produce(HomeAction.GetSymbols(response))
         }else
             produce(HomeAction.ShowFailureMsg(response.success.toString()))
 

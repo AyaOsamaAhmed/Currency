@@ -5,16 +5,16 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class LatestResponse (
+data class LatestItem (
     @field:SerializedName("success")
-    var success : Boolean,
+    var success : Boolean? = null ,
     @field:SerializedName("timestamp")
-    var timestamp : Int,
+    var timestamp : Int? = null ,
     @field:SerializedName("base")
-    var base : String,
+    var base : String? = null ,
     @field:SerializedName("date")
-    var date : String,
+    var date : String? = null ,
     @field:SerializedName("rates")
-    var rates : ListSymbolsResponse
+    var rates : MutableList<RateItem> = mutableListOf()
 
 ): Parcelable

@@ -9,8 +9,8 @@ import javax.inject.Inject
 class MainRepository @Inject constructor(private val mainApiService: MainApis) {
 
 
-    suspend fun latest(symbol : String ): NetworkResponse<LatestResponse, ErrorResponse> =
-        mainApiService.latest(symbols =  symbol)
+    suspend fun latest( ): NetworkResponse<LatestResponse, ErrorResponse> =
+        mainApiService.latest()
 
 
     suspend fun symbols(): NetworkResponse<SymbolsResponse, ErrorResponse> =

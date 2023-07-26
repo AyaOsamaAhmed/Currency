@@ -1,6 +1,7 @@
 package com.aya.currency.feature.fragment.home.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,6 +36,10 @@ class HomeFragment : BaseFragment<HomeFragmentBinding, HomeViewModel>() ,
     private var fromCurrency = ""
     private var toCurrency = ""
 
+    private var fromRate = ""
+    private var toRate = ""
+
+
     override fun onFragmentReady() {
 
         mViewModel.apply {
@@ -46,9 +51,11 @@ class HomeFragment : BaseFragment<HomeFragmentBinding, HomeViewModel>() ,
         binding.apply {
 
             btConvert.setOnClickListener {
-                mViewModel.getLatest(toCurrency)
+               getConvertCurrency()
             }
-
+            btDetails.setOnClickListener {
+                navController.navigate(R.id.action_HomeFragment_to_HistoryFragment)
+            }
         }
         binding.spinnerFromCurrency.adapter = currencyAdapter
         binding.spinnerFromCurrency.onItemSelectedListener = this
@@ -56,6 +63,24 @@ class HomeFragment : BaseFragment<HomeFragmentBinding, HomeViewModel>() ,
         binding.spinnerToCurrency.adapter = currencyAdapter
         binding.spinnerToCurrency.onItemSelectedListener = this
 
+
+    }
+
+    private fun getConvertCurrency() {
+        mViewModel.rates.forEach {
+            if(it.Currency == fromCurrency){
+                fromRate = it.rate.toString()
+            }
+            if (it.Currency == toCurrency){
+                toRate = it.rate.toString()
+            }
+        }
+
+        val value = binding.inputNumber.text.toString().toFloat()
+        val from = value.div(fromRate.toFloat())
+        val to =  toRate.toFloat().times(from)
+
+        binding.convertNumber.text = String.format("%.6f", to)
 
     }
 
@@ -77,13 +102,10 @@ class HomeFragment : BaseFragment<HomeFragmentBinding, HomeViewModel>() ,
             }
             is HomeAction.ShowFailureMsg -> showToast(action.message)
             is HomeAction.ShowLatest -> {
-                val data = action.data
-
             }
             is HomeAction.GetSymbols ->{
                 val data = action.data
                 handleCurrencyData(data)
-                showToast(data.AED)
 
             }
         }
@@ -92,21 +114,11 @@ class HomeFragment : BaseFragment<HomeFragmentBinding, HomeViewModel>() ,
 
     private fun handleCurrencyData(data: SymbolsItem) {
         listCountryCurrency.clear()
-        listCountryCurrency.add(data.AED)
-        listCountryCurrency.add(data.AFN)
-        listCountryCurrency.add(data.ALL)
-        listCountryCurrency.add(data.AMD)
-        listCountryCurrency.add(data.ANG)
-        listCountryCurrency.add(data.AOA)
-
-        listCurrency.clear()
-        listCurrency.add(SymbolItem(data.AED,"AED"))
-        listCurrency.add(SymbolItem(data.AFN,"AFN"))
-        listCurrency.add(SymbolItem(data.ALL,"ALL"))
-        listCurrency.add(SymbolItem(data.AMD,"AMD"))
-        listCurrency.add(SymbolItem(data.ANG,"ANG"))
-        listCurrency.add(SymbolItem(data.AOA,"AOA"))
-
+        data.symbols.forEach {
+            listCountryCurrency.add(it.Country)
+        }
+        listCurrency = data.symbols
+        //
         fromCurrency = listCurrency[0].Currency
         toCurrency = listCurrency[0].Currency
 
@@ -125,15 +137,14 @@ class HomeFragment : BaseFragment<HomeFragmentBinding, HomeViewModel>() ,
                 if(it.Country == item)
                     fromCurrency = it.Currency
             }
-
-            showToast(" From : $fromCurrency")
+            Log.d("","From $fromCurrency")
 
         }else if(parent?.id == binding.spinnerToCurrency.id){
             listCurrency.forEach {
                 if(it.Country == item)
                     toCurrency = it.Currency
             }
-            showToast(" To : $toCurrency")
+            Log.d("","To: $toCurrency")
         }
 
 

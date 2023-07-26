@@ -18,7 +18,9 @@ interface MainApis {
     }
 
     @GET(LATEST)
-    suspend fun latest(@Query ("access_key") access_key : String = ACCESS_KEY, @Query ("symbols") symbols : String): NetworkResponse<LatestResponse, ErrorResponse>
+    suspend fun latest(@Query ("access_key") access_key : String = ACCESS_KEY): NetworkResponse<LatestResponse, ErrorResponse>
+    //, @Query ("symbols") symbols : String
+
 
     @GET(SYMBOLS)
     suspend fun symbols(@Query ("access_key") access_key : String = ACCESS_KEY  ): NetworkResponse<SymbolsResponse, ErrorResponse>

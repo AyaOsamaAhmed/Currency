@@ -9,6 +9,6 @@ data class SymbolsResponse (
     @field:SerializedName("success")
     var success : Boolean,
     @field:SerializedName("symbols")
-    var symbols : SymbolsItem
+    var symbols : ListSymbolsResponse
 
 ): Parcelable
